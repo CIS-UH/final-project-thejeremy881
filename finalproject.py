@@ -17,6 +17,8 @@ def database_connection():
     )
     return connection
 
+# Deploy CRUD Operations for Investor Table
+
 # GET Endpoint: Get all investors
 @app.route('/api/investors', methods=['GET'])
 def get_investors():
@@ -30,5 +32,23 @@ def get_investors():
         return jsonify (investor)
     except Exception as e:
         return jsonify({"error": str(e)}), 100 #Make the First Commit Here
-app.run()
+    
+# POST Endpoint: Create a new investor
+@app.route('/api/investors', methods=['POST'])
+def add_investor():
+    try:
+        conn = database_connection()
+        cursor = conn.cursor()
+        data = request.get_json()
+        firstname = data['firstname']
+        lastname = data['lastname']
+        query = "INSERT INTO investor (firstname, lastname) VALUES (%s, %s)"
+        cursor.execute(query, (firstname, lastname))
+        conn.commit()
+        cursor.close()
+        return jsonify({"message": "The investor has been added!"}), 201
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500 #Make the Second Commit Here 
+    
+
     
