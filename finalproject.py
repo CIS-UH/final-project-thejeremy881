@@ -17,7 +17,7 @@ def database_connection():
     )
     return connection
 
-# Deploy CRUD Operations for Investor Table
+# Deploy CRUD Operations for investor Table
 
 # GET Endpoint: Get all investors
 @app.route('/api/investors', methods=['GET'])
@@ -95,22 +95,27 @@ def update_investor(id):
         return jsonify({"message": "The Investor is updated successfully!"}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500  
-app.run()
 
+# Deploy CRUD Operations for stock Table
 
-# POST Endpoint: Creating a new bond
-@app.route('/api/bond', methods=['POST'])
-def bond_create():
+# POST Endpoint: Create a new stock
+@app.route('/api/stocks', methods=['POST'])
+def add_stock():
     try:
         conn = database_connection()
         cursor = conn.cursor()
         data = request.get_json()
-        bondname = data['bondname']
+        stockname = data['stockname']
         abbreviation = data['abbreviation']
         currentprice = data['currentprice']
-        query = "INSERT INTO bond (bondname, abbreviation) VALUES (%s, %s, %s)"
-        cursor.execute(query, (bondname, abbreviation, currentprice))
-        return jsonify({"message": "A new bond has been added!"})
-    except Exception as e :
+
+        query = "INSERT INTO stock (stockname, abbreviation, currentprice) VALUES (%s, %s, %s)"
+        cursor.execute(query, (stockname, abbreviation, currentprice))
+        conn.commit()
+        cursor.close()
+        return jsonify({"message": "The stock has been added!"}), 201
+    except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+
 
