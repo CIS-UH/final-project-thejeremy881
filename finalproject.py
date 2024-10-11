@@ -68,7 +68,49 @@ def delete_investor(id):
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+# PUT Endpoint: Update an Investor by ID
+@app.route('/api/investors/<int:id>', methods=['PUT'])
+def update_investor(id):
+    try:
+        conn = database_connection()
+        cursor = conn.cursor()
+        data = request.get_json()
+        firstname = data.get('firstname')
+        lastname = data.get('lastname')
+        
+        #Ensure both of the fields are provided in the request body
+        if not firstname or not lastname:
+            return jsonify({"error": "Both of the firstname and lastname are required."}), 400
+        
+        #Update the investor in the database
+        query = "UPDATE investor SET firstname = %s, lastname = %s WHERE id = %s"
+        cursor.execute(query, (firstname, lastname, id))
+        conn.commit()
+        
+        if cursor.rowcount == 0:
+            return jsonify({"message": "The investor is not found!"}), 404
+        
+        cursor.close()
+        conn.close()
+        return jsonify({"message": "The Investor is updated successfully!"}), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500  
+app.run()
 
 
-
+# POST Endpoint: Creating a new bond
+@app.route('/api/bond', methods=['POST'])
+def bond_create():
+    try:
+        conn = database_connection()
+        cursor = conn.cursor()
+        data = request.get_json()
+        bondname = data['bondname']
+        abbreviation = data['abbreviation']
+        currentprice = data['currentprice']
+        query = "INSERT INTO bond (bondname, abbreviation) VALUES (%s, %s, %s)"
+        cursor.execute(query, (bondname, abbreviation, currentprice))
+        return jsonify({"message": "A new bond has been added!"})
+    except Exception as e :
+        return jsonify({"error": str(e)}), 500
 
