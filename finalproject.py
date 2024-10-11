@@ -50,5 +50,25 @@ def add_investor():
     except Exception as e:
         return jsonify({"error": str(e)}), 500 #Make the Second Commit Here 
     
+# DELETE Endpoint: Delete a investor
+@app.route('/api/investors/<int:id>', methods=['DELETE'])
+def delete_investor(id):
+    try:
+        conn = database_connection()
+        cursor = conn.cursor()
+        query = "DELETE FROM investor WHERE id = %s"
+        cursor.execute(query, (id,))
+        conn.commit()
+        cursor.close()
+        conn.close()
+        if cursor.rowcount == 0:
+            return jsonify({"message": "The investor is not found"}), 404
+        
+        return jsonify({"message": "The investor has been deleted!"}), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
-    
+
+
+
+
