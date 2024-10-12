@@ -240,6 +240,37 @@ def create_stock_transaction():
         return jsonify({"message": "The stock transaction has been created successfully!"}), 201
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+# GET Endpoint: Get all of the stock transactions
+@app.route('/api/stocktransactions', methods=['GET'])
+def get_stock_transactions():
+    try:
+        conn = database_connection()
+        cursor = conn.cursor(dictionary=True)
+        query = """
+        SELECT 
+            st.id, 
+            st.date, 
+            st.investorid, 
+            i.firstname AS investor_firstname,
+            i.lastname AS investor_lastname,
+            st.stockid, 
+            s.stockname AS stock_name,
+            s.abbreviation AS stock_abbreviation,
+            st.quantity
+        FROM 
+            stocktransaction st
+        JOIN investor i ON st.investorid = i.id
+        JOIN stock s ON st.stockid = s.id
+        """
+        cursor.execute(query)
+        stock_transactions = cursor.fetchall()
+        cursor.close()
+        conn.close()
+
+        return jsonify(stock_transactions), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 app.run()
 
 
