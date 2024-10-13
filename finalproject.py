@@ -288,7 +288,25 @@ def delete_stock_transaction(id):
         return jsonify({"message": "The stock transaction has been deleted!"}), 200
     except Exception as e:
         return jsonify({"error": str(e)}, 500)
+
+# Deploy CRUD Operations for BondTransactions Table
+
+# GET Endpoint: Get all of the bondtransactions.
+@app.route('/api/bondtransactions', methods=['GET'])
+def get_bond_transactions():
+    try:
+        conn = database_connection()
+        cursor = conn.cursor(dictionary=True)
+        query = "SELECT * FROM bondtransaction"
+        cursor.execute(query)
+        bond_transactions = cursor.fetchall()
+        cursor.close()
+        conn.close()
+        return jsonify(bond_transactions), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 app.run()
+
     
 
 
