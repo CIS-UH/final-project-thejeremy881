@@ -271,7 +271,25 @@ def get_stock_transactions():
         return jsonify(stock_transactions), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+# DELETE Endpoint: Delete a stock transaction by ID
+@app.route('/api/stocktransaction/<int:id>', methods=['DELETE'])
+def delete_stock_transaction(id):
+    try:
+        conn = database_connection()
+        cursor = conn.cursor()
+        query = "DELETE FROM stocktransaction WHERE id = %s"
+        cursor.execute(query, (id,))
+        conn.commit()
+        if cursor.rowcount == 0:
+            return jsonify({"message": "The stock transaction is not found!"}), 404
+        cursor.close()
+        conn.close()
+        return jsonify({"message": "The stock transaction has been deleted!"}), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}, 500)
 app.run()
+    
 
 
 
