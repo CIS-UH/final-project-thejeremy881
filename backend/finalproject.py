@@ -17,6 +17,35 @@ def database_connection():
     )
     return connection
 
+def get_current_holdings(investor_id, item_id, item_type):
+    try:
+        conn = database_connection()
+        cursor = conn.cursor()
+        
+        if item_type == 'stock':
+            query = """
+                SELECT SUM(quantity) AS total_quantity
+                FROM stocktransaction
+                WHERE investorid = %s AND stockid = %s
+            """
+        elif item_type == 'bond':
+            query = """
+                SELECT SUM(quantity) AS total_quantity
+                FROM bondtransaction
+                WHERE investorid = %s AND bondid = %s
+            """
+        else:
+            return 0
+        
+        cursor.execute(query, (investor_id, item_id))
+        result = cursor.fetchone()
+        cursor.close()
+        conn.close()
+        
+        return result[0] if result and result[0] else 0
+    except Exception as e:
+        raise Exception(f"Error calculating current holdings: {str(e)}")
+
 # Deploy CRUD Operations for investor Table
 
 # GET Endpoint: Get all investors
@@ -231,6 +260,12 @@ def create_stock_transaction():
         if not investor_id or not stock_id or quantity is None:
             return jsonify({"error": "All fields (investorid, stockid, quantity) are required!"}), 400
 
+        # Here we will validate the sale to meet the project requirement.
+        if quantity < 0:
+            current_holdings = get_current_holdings(investor_id, stock_id, 'stock')
+            if abs(quantity) > current_holdings:
+                return jsonify({"error": "The sale quantity exceeds current holdings!"}), 400
+
         query = "INSERT INTO stocktransaction (investorid, stockid, quantity) VALUES (%s, %s, %s)"
         cursor.execute(query, (investor_id, stock_id, quantity))
         conn.commit()
@@ -332,10 +367,22 @@ def create_bondtransaction():
         conn = database_connection()
         cursor = conn.cursor()
         data = request.get_json()
+
         date = data['date']
         investorid = data['investorid']
         bondid = data['bondid']
         quantity = data['quantity']
+
+        if not investorid or not bondid or quantity is None:
+            return jsonify({"error": "All fields (date, investorid, bondid, quantity) are required!"}), 400
+
+        # Validate the sale as part of the project requirement
+
+        if quantity < 0:
+            current_holdings = get_current_holdings(investorid, bondid, 'bond')
+            if abs(quantity) > current_holdings:
+                return jsonify({"error": "Sale quantity exceeds current holdings!"}), 400
+
         query = "INSERT INTO bondtransaction (date, investorid, bondid, quantity) VALUES (%s, %s, %s, %s)"
         cursor.execute(query, (date, investorid, bondid, quantity))
         conn.commit()
@@ -344,7 +391,61 @@ def create_bondtransaction():
         return jsonify({"message": "A new bond transaction has been added!"}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+    
+# GET Endpoint: Retrieve an investor's portfolio
+
+@app.route('/api/investors/<int:id>/portfolio', methods=['GET'])
+def get_investor_portfolio(id):
+    try:
+        conn = database_connection()
+        cursor = conn.cursor(dictionary=True)
+        
+        # Get stock transactions for the investor
+        stock_query = """
+        SELECT 
+            st.id AS transaction_id,
+            st.date AS transaction_date,
+            s.stockname AS stock_name,
+            s.abbreviation AS stock_abbreviation,
+            s.currentprice AS stock_price,
+            st.quantity AS stock_quantity
+        FROM 
+            stocktransaction st
+        JOIN stock s ON st.stockid = s.id
+        WHERE st.investorid = %s
+        """
+        cursor.execute(stock_query, (id,))
+        stock_transactions = cursor.fetchall()
+
+        # Get bond transactions for the investor
+        bond_query = """
+        SELECT 
+            bt.id AS transaction_id,
+            bt.date AS transaction_date,
+            b.bondname AS bond_name,
+            b.abbreviation AS bond_abbreviation,
+            b.currentprice AS bond_price,
+            bt.quantity AS bond_quantity
+        FROM 
+            bondtransaction bt
+        JOIN bond b ON bt.bondid = b.id
+        WHERE bt.investorid = %s
+        """
+        cursor.execute(bond_query, (id,))
+        bond_transactions = cursor.fetchall()
+
+        cursor.close()
+        conn.close()
+
+        return jsonify({
+            "investor_id": id,
+            "stock_transactions": stock_transactions,
+            "bond_transactions": bond_transactions
+        }), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 app.run()
+
 
 
     
