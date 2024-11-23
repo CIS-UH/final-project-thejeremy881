@@ -1,54 +1,32 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stock Brokerage System</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            text-align: center;
-        }
-        h1 {
-            color: #333;
-        }
-        nav {
-            margin-top: 20px;
-        }
-        nav a {
-            display: inline-block;
-            margin: 10px;
-            padding: 10px 20px;
-            text-decoration: none;
-            color: white;
-            background-color: #007BFF;
-            border-radius: 5px;
-            font-size: 16px;
-        }
-        nav a:hover {
-            background-color: #0056b3;
-        }
-        footer {
-            margin-top: 30px;
-            font-size: 14px;
-            color: #777;
-        }
-    </style>
+    <link rel="stylesheet" href="/css/index.css">
 </head>
 <body>
-    <h1><%= message %></h1>
-    <p>Welcome to the Stock Brokerage System! Manage your investors, stocks, bonds, and portfolios seamlessly.</p>
-    
-    <nav>
-        <a href="/investors">Manage Investors</a>
-        <a href="/stocks">Manage Stocks</a>
-        <a href="/bonds">Manage Bonds</a>
-        <a href="/portfolio">View Investor Portfolio</a>
-    </nav>
-    
+    <!-- Main Content -->
+    <main>
+        <header>
+            <h1>Stock Brokerage System!</h1>
+            <p class="subtitle">Welcome to the Stock Brokerage System – your comprehensive platform to efficiently manage investors, stocks, bonds, and portfolios.</p>
+        </header>
+
+        <!-- Buttons Section -->
+        <div class="button-container">
+            <button onclick="window.location.href='/investors'">Manage Investors</button>
+            <button onclick="window.location.href='/stocks'">Manage Stocks</button>
+            <button onclick="window.location.href='/bonds'">Manage Bonds</button>
+            <button onclick="window.location.href='/portfolio'">View Investor Portfolio</button>
+        </div>
+    </main>
+
+    <!-- Footer -->
     <footer>
-        <p>&copy; Fall 2024 Stock Brokerage System. All Rights Reserved.</p>
+        &copy; CIS 2368 Fall 2024 Stock Brokerage System Project. All Rights Reserved by Jeremy Duong & Cameron Gilmore.
     </footer>
 </body>
 </html>
+
+
+

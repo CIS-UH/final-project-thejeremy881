@@ -1,106 +1,62 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Investor Portfolio</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-        }
-        h1, h2 {
-            color: #333;
-        }
-        a {
-            text-decoration: none;
-            color: #007BFF;
-            margin-bottom: 20px;
-            display: inline-block;
-        }
-        a:hover {
-            color: #0056b3;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 10px;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }
-        th {
-            background-color: #f4f4f4;
-        }
-        .empty-message {
-            color: #888;
-            font-style: italic;
-        }
-    </style>
+    <title>Stocks</title>
+    <link rel="stylesheet" href="/css/stocks.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
-    <h1>Portfolio of Investor: <%= investor_id %></h1>
-    <a href="/">Back to Home</a>
+    <main>
+        <!-- Back to Home Button -->
+        <div class="back-button-container">
+            <button onclick="window.location.href='/'">Back to Home</button>
+        </div>
 
-    <!-- Stocks Section -->
-    <h2>Stocks</h2>
-    <% if (stock_transactions.length > 0) { %>
+        <header>
+            <h1>Stocks</h1>
+        </header>
+
+        <!-- Add New Stock Form -->
+        <form action="/stocks" method="POST">
+            <label for="stockname">Stock Name:</label>
+            <input type="text" id="stockname" name="stockname" placeholder="Stock Name" required>
+        
+            <label for="abbreviation">Abbreviation:</label>
+            <input type="text" id="abbreviation" name="abbreviation" placeholder="Abbreviation" required>
+        
+            <label for="price">Current Price:</label>
+            <input type="number" id="price" name="currentprice" placeholder="Current Price" required>
+        
+            <button type="submit">Add Stock</button>
+        </form>
+        
+
+        <!-- Stocks List -->
         <table>
             <thead>
                 <tr>
                     <th>Stock Name</th>
                     <th>Abbreviation</th>
-                    <th>Price</th>
-                    <th>Quantity</th>
-                    <th>Total Value</th>
+                    <th>Current Price</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
-                <% stock_transactions.forEach(stock => { %>
+                <% stocks.forEach(stock => { %>
                     <tr>
-                        <td><%= stock.stock_name %></td>
-                        <td><%= stock.stock_abbreviation %></td>
-                        <td>$<%= stock.stock_price %></td>
-                        <td><%= stock.stock_quantity %></td>
-                        <td>$<%= (stock.stock_price * stock.stock_quantity).toFixed(2) %></td>
+                        <td><%= stock.stockname %></td>
+                        <td><%= stock.abbreviation %></td>
+                        <td>$<%= stock.currentprice %></td>
+                        <td>
+                            <form action="/stocks/<%= stock.id %>/delete" method="POST">
+                                <button type="submit">Delete</button>
+                            </form>
+                        </td>
                     </tr>
                 <% }); %>
             </tbody>
         </table>
-    <% } else { %>
-        <p class="empty-message">No stocks found in this portfolio.</p>
-    <% } %>
-
-    <!-- Bonds Section -->
-    <h2>Bonds</h2>
-    <% if (bond_transactions.length > 0) { %>
-        <table>
-            <thead>
-                <tr>
-                    <th>Bond Name</th>
-                    <th>Abbreviation</th>
-                    <th>Price</th>
-                    <th>Quantity</th>
-                    <th>Total Value</th>
-                </tr>
-            </thead>
-            <tbody>
-                <% bond_transactions.forEach(bond => { %>
-                    <tr>
-                        <td><%= bond.bond_name %></td>
-                        <td><%= bond.bond_abbreviation %></td>
-                        <td>$<%= bond.bond_price %></td>
-                        <td><%= bond.bond_quantity %></td>
-                        <td>$<%= (bond.bond_price * bond.bond_quantity).toFixed(2) %></td>
-                    </tr>
-                <% }); %>
-            </tbody>
-        </table>
-    <% } else { %>
-        <p class="empty-message">No bonds found in this portfolio.</p>
-    <% } %>
+    </main>
 </body>
 </html>
 

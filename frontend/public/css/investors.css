@@ -1,0 +1,133 @@
+/* Center Container */
+.center-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+}
+
+/* Back to Home Button */
+.back-button-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2rem;
+}
+
+.back-button-container button {
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff; /* Bright blue */
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.back-button-container button:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+}
+
+/* Header Styles */
+header h1 {
+    text-align: center;
+    font-size: 3rem;
+    color: #007bff; /* Bright blue for title */
+    margin-bottom: 1.5rem;
+    font-family: 'Poppins', sans-serif; /* Modern font */
+}
+
+/* Form Styling */
+form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+form input {
+    padding: 0.7rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-family: 'Poppins', sans-serif;
+}
+
+form button {
+    padding: 0.8rem 1.2rem;
+    font-size: 1rem;
+    border: none;
+    border-radius: 5px;
+    background-color: #ff6f61; /* Coral for buttons */
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    font-family: 'Poppins', sans-serif;
+}
+
+form button:hover {
+    background-color: #e6554f;
+    transform: scale(1.05);
+}
+
+/* Table Styling */
+table {
+    width: 95%; /* Covers nearly the entire page */
+    border-collapse: collapse;
+    margin-top: 2rem;
+    text-align: left;
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+    font-family: 'Poppins', sans-serif; /* Modern font */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+table th, table td {
+    padding: 1rem;
+    border: 1px solid #ddd;
+}
+
+table th {
+    background-color: #007bff; /* Bright blue for table headers */
+    color: white;
+    text-align: center;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+table td {
+    text-align: center;
+    color: #333;
+    font-size: 1rem;
+}
+
+table td:last-child {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+table td button {
+    padding: 0.7rem 1rem;
+    font-size: 1rem;
+    border: none;
+    border-radius: 5px;
+    background-color: #ff6f61;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    font-family: 'Poppins', sans-serif;
+}
+
+table td button:hover {
+    background-color: #e6554f;
+    transform: scale(1.05);
+}
+
+

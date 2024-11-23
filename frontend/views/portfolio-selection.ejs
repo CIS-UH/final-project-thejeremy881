@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Select Investor Portfolio</title>
+    <link rel="stylesheet" href="/css/portfolio-selection.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <main>
+        <!-- Back to Home Button -->
+        <div class="back-button-container">
+            <a href="/">Back to Home</a>
+        </div>
+
+        <header>
+            <h1>Select Investor Portfolio</h1>
+        </header>
+
+        <!-- Investor List -->
+        <div class="investor-list-container">
+            <h2>Choose an Investor</h2>
+            <ul>
+                <% investors.forEach(investor => { %>
+                    <li>
+                        <%= investor.firstname %> <%= investor.lastname %> 
+                        (<a href="/portfolio/<%= investor.id %>">View Portfolio</a>)
+                    </li>
+                <% }); %>
+            </ul>
+        </div>
+    </main>
+</body>
+</html>

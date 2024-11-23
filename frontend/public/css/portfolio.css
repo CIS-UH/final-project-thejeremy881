@@ -1,0 +1,206 @@
+/* General Styles */
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+main {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Header */
+header h1 {
+    text-align: center;
+    color: #007bff;
+    margin-bottom: 20px;
+}
+
+/* Back Button */
+.back-button-container {
+    margin-bottom: 20px;
+}
+
+.back-button-container a {
+    text-decoration: none;
+    color: white;
+    background-color: #007bff;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.back-button-container a:hover {
+    background-color: #0056b3;
+}
+
+/* Section Titles */
+.section-title {
+    color: #007bff;
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+/* Table Styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+table th {
+    background-color: #007bff;
+    color: white;
+    padding: 10px;
+    text-align: left;
+}
+
+table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+table tr:hover {
+    background-color: #f1f1f1;
+}
+
+table td button {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+table td button:hover {
+    opacity: 0.8;
+}
+
+button {
+    cursor: pointer;
+}
+
+/* Add/Edit Transaction Buttons */
+.add-transaction-buttons {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.add-transaction-buttons button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    font-size: 1rem;
+    border-radius: 5px;
+    margin: 0 10px;
+    transition: background-color 0.3s ease;
+}
+
+.add-transaction-buttons button:hover {
+    background-color: #218838;
+}
+
+/* Modals */
+#addTransactionModal,
+#editTransactionModal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    width: 400px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    z-index: 1000;
+}
+
+#addTransactionModal h3,
+#editTransactionModal h3 {
+    margin-top: 0;
+    color: #007bff;
+    text-align: center;
+}
+
+#addTransactionModal form,
+#editTransactionModal form {
+    display: flex;
+    flex-direction: column;
+}
+
+#addTransactionModal form label,
+#editTransactionModal form label {
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+#addTransactionModal form input,
+#editTransactionModal form input {
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+#addTransactionModal form button,
+#editTransactionModal form button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    font-size: 1rem;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+#addTransactionModal form button:hover,
+#editTransactionModal form button:hover {
+    background-color: #0056b3;
+}
+
+/* Overlay for Modal */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    main {
+        padding: 10px;
+    }
+
+    table th,
+    table td {
+        font-size: 0.9rem;
+    }
+
+    #addTransactionModal,
+    #editTransactionModal {
+        width: 90%;
+    }
+}
+

@@ -1,106 +1,211 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Investor Portfolio</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-        }
-        h1, h2 {
-            color: #333;
-        }
-        a {
-            text-decoration: none;
-            color: #007BFF;
-            margin-bottom: 20px;
-            display: inline-block;
-        }
-        a:hover {
-            color: #0056b3;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 10px;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }
-        th {
-            background-color: #f4f4f4;
-        }
-        .empty-message {
-            color: #888;
-            font-style: italic;
-        }
-    </style>
+    <title>Portfolio of Investor</title>
+    <link rel="stylesheet" href="/css/portfolio.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
-    <h1>Portfolio of Investor: <%= investor_id %></h1>
-    <a href="/">Back to Home</a>
+    <main>
+        <!-- Back to Home Button -->
+        <div class="back-button-container">
+            <a href="/">Back to Home</a>
+        </div>
 
-    <!-- Stocks Section -->
-    <h2>Stocks</h2>
-    <% if (stock_transactions.length > 0) { %>
-        <table>
-            <thead>
-                <tr>
-                    <th>Stock Name</th>
-                    <th>Abbreviation</th>
-                    <th>Price</th>
-                    <th>Quantity</th>
-                    <th>Total Value</th>
-                </tr>
-            </thead>
-            <tbody>
-                <% stock_transactions.forEach(stock => { %>
-                    <tr>
-                        <td><%= stock.stock_name %></td>
-                        <td><%= stock.stock_abbreviation %></td>
-                        <td>$<%= stock.stock_price %></td>
-                        <td><%= stock.stock_quantity %></td>
-                        <td>$<%= (stock.stock_price * stock.stock_quantity).toFixed(2) %></td>
-                    </tr>
-                <% }); %>
-            </tbody>
-        </table>
-    <% } else { %>
-        <p class="empty-message">No stocks found in this portfolio.</p>
-    <% } %>
+        <header>
+            <h1>Portfolio of Investor: <%= investor_id %></h1>
+        </header>
 
-    <!-- Bonds Section -->
-    <h2>Bonds</h2>
-    <% if (bond_transactions.length > 0) { %>
-        <table>
-            <thead>
-                <tr>
-                    <th>Bond Name</th>
-                    <th>Abbreviation</th>
-                    <th>Price</th>
-                    <th>Quantity</th>
-                    <th>Total Value</th>
-                </tr>
-            </thead>
-            <tbody>
-                <% bond_transactions.forEach(bond => { %>
+        <!-- Add Transaction Buttons -->
+        <div class="add-transaction-buttons">
+            <button onclick="showAddTransactionForm('stock')">Add Stock Transaction</button>
+            <button onclick="showAddTransactionForm('bond')">Add Bond Transaction</button>
+        </div>
+
+        <!-- Stock Transactions -->
+        <div class="table-container">
+            <h2 class="section-title">Stock Transactions</h2>
+            <table>
+                <thead>
                     <tr>
-                        <td><%= bond.bond_name %></td>
-                        <td><%= bond.bond_abbreviation %></td>
-                        <td>$<%= bond.bond_price %></td>
-                        <td><%= bond.bond_quantity %></td>
-                        <td>$<%= (bond.bond_price * bond.bond_quantity).toFixed(2) %></td>
+                        <th>Date</th>
+                        <th>Stock Name</th>
+                        <th>Abbreviation</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Actions</th>
                     </tr>
-                <% }); %>
-            </tbody>
-        </table>
-    <% } else { %>
-        <p class="empty-message">No bonds found in this portfolio.</p>
-    <% } %>
+                </thead>
+                <tbody>
+                    <% if (stock_transactions && stock_transactions.length > 0) { %>
+                        <% stock_transactions.forEach(transaction => { %>
+                            <tr id="stock-transaction-<%= transaction.transaction_id %>">
+                                <td><%= transaction.transaction_date %></td>
+                                <td><%= transaction.stock_name %></td>
+                                <td><%= transaction.stock_abbreviation %></td>
+                                <td><%= transaction.stock_quantity %></td>
+                                <td>$<%= transaction.stock_price %></td>
+                                <td>
+                                    <button onclick="showEditTransactionForm(<%= transaction.transaction_id %>, 'stock', <%= transaction.stock_quantity %>)">Edit</button>
+                                    <button onclick="deleteTransaction(<%= transaction.transaction_id %>, 'stock')">Delete</button>
+                                </td>
+                            </tr>
+                        <% }); %>
+                    <% } else { %>
+                        <tr>
+                            <td colspan="6">No stock transactions found.</td>
+                        </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Bond Transactions -->
+        <div class="table-container">
+            <h2 class="section-title">Bond Transactions</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Bond Name</th>
+                        <th>Abbreviation</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% if (bond_transactions && bond_transactions.length > 0) { %>
+                        <% bond_transactions.forEach(transaction => { %>
+                            <tr id="bond-transaction-<%= transaction.transaction_id %>">
+                                <td><%= transaction.transaction_date %></td>
+                                <td><%= transaction.bond_name %></td>
+                                <td><%= transaction.bond_abbreviation %></td>
+                                <td><%= transaction.bond_quantity %></td>
+                                <td>$<%= transaction.bond_price %></td>
+                                <td>
+                                    <button onclick="showEditTransactionForm(<%= transaction.transaction_id %>, 'bond', <%= transaction.bond_quantity %>)">Edit</button>
+                                    <button onclick="deleteTransaction(<%= transaction.transaction_id %>, 'bond')">Delete</button>
+                                </td>
+                            </tr>
+                        <% }); %>
+                    <% } else { %>
+                        <tr>
+                            <td colspan="6">No bond transactions found.</td>
+                        </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <!-- Add Transaction Modal -->
+    <div id="addTransactionModal" style="display:none;">
+        <h3 id="addTransactionTitle">Add Transaction</h3>
+        <form id="addTransactionForm">
+            <label for="transactionType">Type:</label>
+            <span id="transactionType"></span>
+            
+            <label for="investorId">Investor ID:</label>
+            <input type="number" id="investorId" required>
+
+            <label for="itemId">Item ID (Stock/Bond):</label>
+            <input type="number" id="itemId" required>
+
+            <label for="quantity">Quantity:</label>
+            <input type="number" id="quantity" required>
+
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+
+    <!-- Edit Transaction Modal -->
+    <div id="editTransactionModal" style="display:none;">
+        <h3>Edit Transaction</h3>
+        <form id="editTransactionForm">
+            <label for="editQuantity">Quantity:</label>
+            <input type="number" id="editQuantity" required>
+            <input type="hidden" id="editTransactionId">
+            <input type="hidden" id="editTransactionType">
+
+            <button type="submit">Update</button>
+        </form>
+    </div>
+
+    <script>
+        function showAddTransactionForm(type) {
+            document.getElementById('addTransactionModal').style.display = 'block';
+            document.getElementById('transactionType').innerText = type.charAt(0).toUpperCase() + type.slice(1);
+            document.getElementById('addTransactionForm').onsubmit = function(event) {
+                event.preventDefault();
+                const formData = {
+                    investorid: document.getElementById('investorId').value,
+                    [`${type}id`]: document.getElementById('itemId').value,
+                    quantity: document.getElementById('quantity').value
+                };
+
+                fetch(`/api/${type}transaction`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.message) {
+                        alert(data.message);
+                        location.reload();
+                    } else if (data.error) {
+                        alert(`Error: ${data.error}`);
+                    }
+                });
+            };
+        }
+
+        function showEditTransactionForm(transactionId, type, currentQuantity) {
+            document.getElementById('editTransactionModal').style.display = 'block';
+            document.getElementById('editQuantity').value = currentQuantity;
+            document.getElementById('editTransactionId').value = transactionId;
+            document.getElementById('editTransactionType').value = type;
+        }
+
+        document.getElementById('editTransactionForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const transactionId = document.getElementById('editTransactionId').value;
+            const type = document.getElementById('editTransactionType').value;
+            const formData = { quantity: document.getElementById('editQuantity').value };
+
+            fetch(`/api/${type}transaction/${transactionId}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(formData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.message) {
+                    alert(data.message);
+                    location.reload();
+                } else if (data.error) {
+                    alert(`Error: ${data.error}`);
+                }
+            });
+        });
+
+        function deleteTransaction(transactionId, type) {
+            if (!confirm("Are you sure you want to delete this transaction?")) return;
+
+            fetch(`/api/${type}transaction/${transactionId}`, {
+                method: 'DELETE',
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.message) {
+                    alert(data.message);
+                    location.reload();
+                } else if (data.error) {
+                    alert(`Error: ${data.error}`);
+                }
+            });
+        }
+    </script>
 </body>
 </html>
-

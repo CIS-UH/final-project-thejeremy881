@@ -1,77 +1,65 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bonds</title>
-    <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }
-        th {
-            background-color: #f4f4f4;
-        }
-        form {
-            margin: 0;
-        }
-    </style>
+    <link rel="stylesheet" href="/css/bonds.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
-    <h1>Bonds</h1>
-    <a href="/">Back to Home</a>
+    <main>
+        <!-- Back to Home Button -->
+        <div class="back-button-container">
+            <button onclick="window.location.href='/'">Back to Home</button>
+        </div>
 
-    <!-- Success/Error Notifications -->
-    <% if (success) { %>
-        <p style="color:green;"><%= success %></p>
-    <% } %>
-    <% if (error) { %>
-        <p style="color:red;"><%= error %></p>
-    <% } %>
+        <header>
+            <h1>Bonds Management</h1>
+        </header>
 
-    <!-- Add Bond Form -->
-    <form action="/bonds" method="POST">
-        <label for="bondname">Bond Name</label>
-        <input type="text" id="bondname" name="bondname" placeholder="Bond Name" required>
+        <!-- Add New Bond Form -->
+        <form action="/bonds" method="POST">
+            <label for="bondname">Bond Name:</label>
+            <input type="text" id="bondname" name="bondname" placeholder="Bond Name" required>
+            <label for="abbreviation">Abbreviation:</label>
+            <input type="text" id="abbreviation" name="abbreviation" placeholder="Abbreviation" required>
+            <label for="currentprice">Current Price:</label>
+            <input type="number" id="currentprice" name="currentprice" placeholder="Current Price" required>
+            <button type="submit">Add Bond</button>
+        </form>
 
-        <label for="abbreviation">Abbreviation</label>
-        <input type="text" id="abbreviation" name="abbreviation" placeholder="Abbreviation" required>
-
-        <label for="currentprice">Current Price</label>
-        <input type="number" id="currentprice" name="currentprice" placeholder="Current Price" min="0" step="0.01" required>
-
-        <button type="submit">Add Bond</button>
-    </form>
-
-    <!-- Bonds List -->
-    <table>
-        <thead>
-            <tr>
-                <th>Bond Name</th>
-                <th>Abbreviation</th>
-                <th>Current Price</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            <% bonds.forEach(bond => { %>
+        <!-- Bonds Table -->
+        <table>
+            <thead>
                 <tr>
-                    <td><%= bond.bondname %></td>
-                    <td><%= bond.abbreviation %></td>
-                    <td>$<%= bond.currentprice %></td>
-                    <td>
-                        <form action="/bonds/<%= bond.id %>/delete" method="POST" style="display:inline;">
-                            <button type="submit">Delete</button>
-                        </form>
-                    </td>
+                    <th>Bond Name</th>
+                    <th>Abbreviation</th>
+                    <th>Current Price</th>
+                    <th>Actions</th>
                 </tr>
-            <% }); %>
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                <% bonds.forEach(bond => { %>
+                    <tr>
+                        <td><%= bond.bondname %></td>
+                        <td><%= bond.abbreviation %></td>
+                        <td>$<%= bond.currentprice %></td>
+                        <td>
+                            <form action="/bonds/<%= bond.id %>/edit" method="GET" style="display: inline;">
+                                <button type="submit">Edit</button>
+                            </form>
+                            <form action="/bonds/<%= bond.id %>/delete" method="POST" style="display: inline;">
+                                <button type="submit">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    </main>
 </body>
 </html>
+
+
+
+
+

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Bond</title>
+    <link rel="stylesheet" href="/css/edit-bond.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <main>
+        <!-- Back to Bonds Button -->
+        <div class="back-button-container">
+            <a href="/bonds">Back to Bonds</a>
+        </div>
+
+        <header>
+            <h1>Edit Bond</h1>
+        </header>
+
+        <!-- Edit Bond Form -->
+        <form action="/bonds/<%= bond.id %>" method="POST">
+            <label for="bondname">Bond Name:</label>
+            <input type="text" id="bondname" name="bondname" value="<%= bond.bondname %>" required>
+
+            <label for="abbreviation">Abbreviation:</label>
+            <input type="text" id="abbreviation" name="abbreviation" value="<%= bond.abbreviation %>" required>
+
+            <label for="currentprice">Current Price:</label>
+            <input type="number" id="currentprice" name="currentprice" value="<%= bond.currentprice %>" required>
+
+            <button type="submit">Save Changes</button>
+        </form>
+    </main>
+</body>
+</html>
