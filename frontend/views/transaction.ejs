@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>New Transaction</title>
+</head>
+<body>
+    <h1>Create a Transaction</h1>
+    <form action="/transactions" method="POST">
+        <label for="investor">Investor:</label>
+        <select id="investor" name="investor_id" required>
+            <% investors.forEach(investor => { %>
+                <option value="<%= investor.id %>"><%= investor.firstname %> <%= investor.lastname %></option>
+            <% }); %>
+        </select>
+
+        <label for="type">Type:</label>
+        <select id="type" name="type" required>
+            <option value="stock">Stock</option>
+            <option value="bond">Bond</option>
+        </select>
+
+        <label for="item">Item:</label>
+        <select id="item" name="item_id" required>
+            <% items.forEach(item => { %>
+                <option value="<%= item.id %>"><%= item.name %></option>
+            <% }); %>
+        </select>
+
+        <label for="quantity">Quantity:</label>
+        <input type="number" id="quantity" name="quantity" required>
+
+        <button type="submit">Submit Transaction</button>
+    </form>
+    <a href="/">Back to Home</a>
+</body>
+</html>
+

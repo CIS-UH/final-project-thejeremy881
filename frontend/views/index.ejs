@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Brokerage System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            text-align: center;
+        }
+        h1 {
+            color: #333;
+        }
+        nav {
+            margin-top: 20px;
+        }
+        nav a {
+            display: inline-block;
+            margin: 10px;
+            padding: 10px 20px;
+            text-decoration: none;
+            color: white;
+            background-color: #007BFF;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        nav a:hover {
+            background-color: #0056b3;
+        }
+        footer {
+            margin-top: 30px;
+            font-size: 14px;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+    <h1><%= message %></h1>
+    <p>Welcome to the Stock Brokerage System! Manage your investors, stocks, bonds, and portfolios seamlessly.</p>
+    
+    <nav>
+        <a href="/investors">Manage Investors</a>
+        <a href="/stocks">Manage Stocks</a>
+        <a href="/bonds">Manage Bonds</a>
+        <a href="/portfolio">View Investor Portfolio</a>
+    </nav>
+    
+    <footer>
+        <p>&copy; Fall 2024 Stock Brokerage System. All Rights Reserved.</p>
+    </footer>
+</body>
+</html>

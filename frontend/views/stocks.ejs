@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Investor Portfolio</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        a {
+            text-decoration: none;
+            color: #007BFF;
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+        a:hover {
+            color: #0056b3;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        .empty-message {
+            color: #888;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <h1>Portfolio of Investor: <%= investor_id %></h1>
+    <a href="/">Back to Home</a>
+
+    <!-- Stocks Section -->
+    <h2>Stocks</h2>
+    <% if (stock_transactions.length > 0) { %>
+        <table>
+            <thead>
+                <tr>
+                    <th>Stock Name</th>
+                    <th>Abbreviation</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Total Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% stock_transactions.forEach(stock => { %>
+                    <tr>
+                        <td><%= stock.stock_name %></td>
+                        <td><%= stock.stock_abbreviation %></td>
+                        <td>$<%= stock.stock_price %></td>
+                        <td><%= stock.stock_quantity %></td>
+                        <td>$<%= (stock.stock_price * stock.stock_quantity).toFixed(2) %></td>
+                    </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    <% } else { %>
+        <p class="empty-message">No stocks found in this portfolio.</p>
+    <% } %>
+
+    <!-- Bonds Section -->
+    <h2>Bonds</h2>
+    <% if (bond_transactions.length > 0) { %>
+        <table>
+            <thead>
+                <tr>
+                    <th>Bond Name</th>
+                    <th>Abbreviation</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Total Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% bond_transactions.forEach(bond => { %>
+                    <tr>
+                        <td><%= bond.bond_name %></td>
+                        <td><%= bond.bond_abbreviation %></td>
+                        <td>$<%= bond.bond_price %></td>
+                        <td><%= bond.bond_quantity %></td>
+                        <td>$<%= (bond.bond_price * bond.bond_quantity).toFixed(2) %></td>
+                    </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    <% } else { %>
+        <p class="empty-message">No bonds found in this portfolio.</p>
+    <% } %>
+</body>
+</html>
+

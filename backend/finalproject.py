@@ -48,6 +48,18 @@ def get_current_holdings(investor_id, item_id, item_type):
 
 # Deploy CRUD Operations for investor Table
 
+@app.route('/routes', methods=['GET'])
+def list_routes():
+    routes = []
+    for rule in app.url_map.iter_rules():
+        routes.append({
+            "endpoint": rule.endpoint,
+            "methods": list(rule.methods),
+            "route": str(rule)
+        })
+    return jsonify(routes)
+
+
 # GET Endpoint: Get all investors
 @app.route('/api/investors', methods=['GET'])
 def get_investors():
@@ -60,7 +72,7 @@ def get_investors():
         conn.close()
         return jsonify (investor)
     except Exception as e:
-        return jsonify({"error": str(e)}), 100 #Make the First Commit Here
+        return jsonify({"error": str(e)}), 500 #Make the First Commit Here
     
 # POST Endpoint: Create a new investor
 @app.route('/api/investors', methods=['POST'])
