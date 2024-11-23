@@ -30,12 +30,17 @@ app.get("/", (req, res) => {
 // Investors Routes
 app.get("/investors", async (req, res, next) => {
     try {
-        const response = await axios.get(`${BACKEND_URL}/investors`);
-        res.render("investors", { investors: response.data });
+        console.log("Fetching investors...");
+        const response = await axios.get(`${process.env.BACKEND_URL}/investors`);
+        console.log("Investors fetched:", response.data);
+        res.render("investors", { investors: response.data, success: null, error: null });
     } catch (err) {
-        next(err); // Pass error to centralized error handler
+        console.error("Error fetching investors:", err.message);
+        next(err);
     }
 });
+
+
 
 app.post("/investors", async (req, res, next) => {
     const { firstname, lastname } = req.body;
